@@ -14,7 +14,8 @@ const NewCar = () => {
   },[])
 
   const handleCarRemove = (id) => {
-    fetch(`'http://localhost:5000/delete/${id}`, {
+    console.log(id)
+    fetch(`http://localhost:5000/delete/${id}`, {
         method: 'DELETE',
 
     })
@@ -40,7 +41,7 @@ const NewCar = () => {
                         <div>
                             <h5 class="card-title">{cars.name}</h5>
                             <button onClick={() => handleCarRemove(cars._id)} style={{ backgroundColor: '#FF444A', width: '100px', border: 'none', borderRadius: '5px' }}>Remove
-                                                    </button>
+                                  </button>
                         </div>
 
                         <p class="card-text"><small class="text-muted">Brand:{cars.brand}</small></p>
