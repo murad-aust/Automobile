@@ -8,12 +8,13 @@ import {
 } from "react-router-dom";
 import Details from './Components/Cars/Details';
 import AddCar from './Components/AddCar/AddCar';
-export const InfoContext = createContext();
+import NewCar from './Components/NewCar/NewCar';
+export const CarContext = createContext();
 
 function App() {
-  const [info, setInfo] =useState({});
+  const [car, setCar] =useState({});
   return (
-    <InfoContext.Provider value={[info, setInfo]} >
+    <CarContext.Provider value={[car, setCar]} >
     <Router>
       <Switch>
         <Route exact path='/'>
@@ -28,9 +29,12 @@ function App() {
         <Route path='/addCar'>
            <AddCar></AddCar>
         </Route>
+        <Route path='/newCar'>
+           <NewCar></NewCar>
+        </Route>
       </Switch>
     </Router>
-    </InfoContext.Provider>
+    </CarContext.Provider>
   );
 }
 

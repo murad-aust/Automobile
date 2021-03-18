@@ -1,14 +1,15 @@
 import React, { useContext } from 'react';
-import { InfoContext } from '../../App';
+import { CarContext } from '../../App';
 import { useHistory } from "react-router-dom"
 
 
-const Car = (props) => {
-    const {brand, name, image,details}= props.car;
+const Car = ({cars}) => {
+    const {brand, name, image,details}= cars;
+    console.log(cars)
     const history = useHistory();
-     const [info, setInfo]=useContext(InfoContext)
+     const [car, setCar]=useContext(CarContext)
      const detail = () =>{
-         setInfo(props.car);
+         setCar(cars);
          console.log('onclick')
          history.push("/details");
 
@@ -18,7 +19,8 @@ const Car = (props) => {
         
           <div className="card  mb-5 "  >
               <div className="card-header">
-                  <img className="img" src={image} alt="" />
+                  <img className="img" src={`data:image/png;base64,${image.img}`} alt="" />
+                
               </div>
           
           <div className="card-body ">

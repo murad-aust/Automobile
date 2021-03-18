@@ -1,17 +1,19 @@
 import React, { useContext, useState } from 'react';
 import './AddCar.css';
-import { InfoContext } from '../../App';
+import { CarContext } from '../../App';
 import Navbar from '../Navbar/Navbar';
+import { useHistory } from 'react-router';
 
 
 const AddCar= () => {
-    const [info, setInfo] = useContext(InfoContext);
+    const [car, setCar] = useContext(CarContext);
 
-    const [car, setCar] = useState({});
+    const [info, setInfo] = useState({});
     const [file, setFile] = useState(null);
+    const history = useHistory();
 
     const handleBlur = e => {
-        const newCar = { ...car };
+        const newCar = { ...info };
         newCar[e.target.name] = e.target.value;
         setInfo(newCar);
     }
@@ -21,12 +23,15 @@ const AddCar= () => {
         setFile(newFile);
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        console.log(info)
+       
         const formData = new FormData()
        
         formData.append('file', file);
-        formData.append('title', car.title);
-        formData.append('description', car.description);
+        formData.append('name', info.name);
+        formData.append('brand', info.brand);
+        formData.append('details', info.details);
 
         fetch('http://localhost:5000/addCar', {
             method: 'POST',
@@ -34,11 +39,12 @@ const AddCar= () => {
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data)
+                history.push("/newCar")
             })
             .catch(error => {
                 console.error(error)
             })
+        e.preventDefault()
     }
     return (
         <section className="container ">
@@ -50,18 +56,18 @@ const AddCar= () => {
                 <form className="bg-white" style={{borderRadius:'10px'}}  onSubmit={handleSubmit}>
                     <div className="row ">
                         <div className="col">
-                            <label htmlFor="exampleInputEmail1" class="form-label">Car Name</label>
-                            <input onBlur={handleBlur} type="text" className="form-control" name="title" placeholder="Enter Car Name" />
+                            <label  className="form-label">Car Name</label>
+                            <input onBlur={handleBlur} type="text" className="form-control" name="name" placeholder="Enter Car Name" />
                         </div>
                         <div className="col">
-                            <label htmlFor="exampleInputEmail1" class="form-label">Brand Name</label>
-                            <input onBlur={handleBlur} type="text" className="form-control" name="title" placeholder="Enter Brand Name" />
+                            <label  className="form-label">Brand Name</label>
+                            <input onBlur={handleBlur} type="text" className="form-control" name="brand" placeholder="Enter Brand Name" />
                         </div>
                        
                     </div>
                     <div className="col-md-6">
-                        <label htmlFor="exampleInputPassword1" class="form-label">Details</label>
-                        <textarea onBlur={handleBlur} type="text" className="form-control" name="description" placeholder="Enter Details" />
+                        <label  className="form-label">Details</label>
+                        <textarea onBlur={handleBlur} type="text" className="form-control" name="details" placeholder="Enter Details" />
                     </div>
                        <div className="mb-3 ">
                             <input type="file" onChange={handleFileChange} id="upload-btn"  hidden/>
